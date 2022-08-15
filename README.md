@@ -8,6 +8,12 @@
 
  - [Part 1: Sbot and Web Server](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_1_sbot_rocket)
 
+## Links
+
+ - [Scuttlebutt Protocol Guide](https://ssbc.github.io/scuttlebutt-protocol-guide/)
+ - [Scuttlebutt Treasure Map for Developers](https://dev.scuttlebutt.nz)
+ - [golgi: Rust RPC Library](http://golgi.mycelial.technology/)
+
 ## Thanks
 
 I am grateful to the Butts who voted to fund this work, all contributors to the [SSBC](https://opencollective.com/secure-scuttlebutt-consortium) and Erick Lavoie (`@elavoie` / `@IgYpd+tCtXnlE2tYX/8rR2AGt+P8svC98WH3MdYAa8Y=.ed25519`) in particular - both for partially funding this work and for developing and overseeing the community grant process.
