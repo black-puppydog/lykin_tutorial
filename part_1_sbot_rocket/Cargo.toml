@@ -1,0 +1,8 @@
+[package]
+name = "part_1_sbot_rocket"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+golgi = { git = "https://git.coopcloud.tech/golgi-ssb/golgi.git" }
+rocket = "0.5.0-rc.1"

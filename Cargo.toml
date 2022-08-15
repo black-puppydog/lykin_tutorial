@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "part_1_sbot_rocket"
+]
