@@ -131,6 +131,8 @@ Now we can write our first Scuttlebutt-related code. Begin by adding the `golgi`
 
 `golgi = { git = "https://git.coopcloud.tech/golgi-ssb/golgi.git" }`
 
+`golgi` is an RPC client library that allows us to interact with a running sbot.
+
 We're going to write a function to define the connection parameters needed to communicate successfully with our locally-running sbot instance. This includes the IP and port on which the `go-sbot` is listening, as well as the location of the keystore being used by the `go-sbot` (ie. where the `secret` file lives...the file which contains the public-private keypair used by the sbot):
 
 `src/main.rs`
