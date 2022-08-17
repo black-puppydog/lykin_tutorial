@@ -233,7 +233,7 @@ async fn rocket() -> _ {
 
 ### Conclusion
 
-That's all for the first part of this tutorial series. We installed and configured go-sbot, wrote a simple web server and made our first RPC call to the sbot. Not bad for 29 lines of code! In the next installment we'll setup a key-value database to store application data and learn how to follow a Scuttlebutt peer.
+That's all for the first part of this tutorial series. We installed and configured go-sbot, wrote a simple web server and made our first RPC call to the sbot. Not bad for 29 lines of code! In the next installment we'll setup the basic scaffolding for subscribing to Scuttlebutt peers.
 
 ## Funding
 

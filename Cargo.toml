@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "part_1_sbot_rocket"
+    "part_1_sbot_rocket",
+    "part_2_subscribe_form"
 ]
