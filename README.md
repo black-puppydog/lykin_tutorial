@@ -7,6 +7,7 @@
 ## Installments
 
  - [Part 1: Sbot and Web Server](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_1_sbot_rocket)
+ - [Part 2: Subscription Form and Key Validation](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_2_subscribe_form)
 
 ## Links
 
