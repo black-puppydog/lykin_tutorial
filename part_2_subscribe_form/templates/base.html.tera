@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <a href="/"><h1>lykin</h1></a>
+    <h1><a href="/">lykin</a></h1>
 		<p>{{ whoami }}</p>
     <form action="/subscribe" method="post">
       <label for="public_key">Public Key</label>
