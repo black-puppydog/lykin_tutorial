@@ -2,6 +2,7 @@ use std::env;
 
 use golgi::{api::friends::RelationshipQuery, sbot::Keystore, Sbot};
 
+/// Initialise a connection to a Scuttlebutt server.
 pub async fn init_sbot() -> Result<Sbot, String> {
     let go_sbot_port = env::var("GO_SBOT_PORT").unwrap_or_else(|_| "8021".to_string());
 
@@ -14,12 +15,16 @@ pub async fn init_sbot() -> Result<Sbot, String> {
         .map_err(|e| e.to_string())
 }
 
+/// Return the public key of the local sbot instance.
 pub async fn whoami() -> Result<String, String> {
     let mut sbot = init_sbot().await?;
 
     sbot.whoami().await.map_err(|e| e.to_string())
 }
 
+/// Check follow status.
+///
+/// Is peer A (`public_key_a`) following peer B (`public_key_b`)?
 pub async fn is_following(public_key_a: &str, public_key_b: &str) -> Result<String, String> {
     let mut sbot = init_sbot().await?;
 

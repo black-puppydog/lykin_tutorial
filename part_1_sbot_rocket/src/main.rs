@@ -3,6 +3,7 @@ use std::env;
 use golgi::{sbot::Keystore, Sbot};
 use rocket::{get, launch, routes};
 
+/// Initialise a connection to a Scuttlebutt server.
 async fn init_sbot() -> Result<Sbot, String> {
     let go_sbot_port = env::var("GO_SBOT_PORT").unwrap_or_else(|_| "8021".to_string());
 
@@ -15,6 +16,7 @@ async fn init_sbot() -> Result<Sbot, String> {
         .map_err(|e| e.to_string())
 }
 
+/// Return the public key of the local sbot instance.
 async fn whoami() -> Result<String, String> {
     let mut sbot = init_sbot().await?;
     sbot.whoami().await.map_err(|e| e.to_string())
