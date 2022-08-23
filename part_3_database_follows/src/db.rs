@@ -13,7 +13,7 @@ pub struct Peer {
 
 impl Peer {
     /// Create a new instance of the Peer struct using the given public
-    /// key. Default values are set for latest_sequence and name.
+    /// key. A default value is set for name.
     pub fn new(public_key: &str) -> Peer {
         Peer {
             public_key: public_key.to_string(),

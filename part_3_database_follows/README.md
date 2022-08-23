@@ -52,7 +52,7 @@ impl Database {
         // Open the database at the given path.
         // The database will be created if it does not yet exist.
         let db = sled::open(path).expect("Failed to open database");
-				// Open a database tree with the name "peers".
+        // Open a database tree with the name "peers".
         let peer_tree = db
             .open_tree("peers")
             .expect("Failed to open 'peers' database tree");
@@ -75,8 +75,8 @@ use crate::{db::Database, routes::*};
 async fn rocket() -> _ {
     // Define "lykin" as the prefix for the base directories.
     let xdg_dirs = BaseDirectories::with_prefix("lykin").unwrap();
-		// Generate a configuration file path named "database".
-		// On Linux, the path will be `~/.config/lykin/database`.
+    // Generate a configuration file path named "database".
+    // On Linux, the path will be `~/.config/lykin/database`.
     let db_path = xdg_dirs
         .place_config_file("database")
         .expect("cannot create database directory");
@@ -115,8 +115,8 @@ In addition to the datastructure itself, we'll implement a couple of methods to 
 
 ```rust
 impl Peer {
-    /// Create a new instance of the Peer struct using the given public
-    /// key. Default values are set for latest_sequence and name.
+    // Create a new instance of the Peer struct using the given public
+    // key. A default value is set for name.
     pub fn new(public_key: &str) -> Peer {
         Peer {
             public_key: public_key.to_string(),
@@ -124,8 +124,8 @@ impl Peer {
         }
     }
 
-    /// Modify the name field of an instance of the Peer struct, leaving
-    /// the other values unchanged.
+    // Modify the name field of an instance of the Peer struct, leaving
+    // the other values unchanged.
     pub fn set_name(self, name: &str) -> Peer {
         Self {
             name: name.to_string(),
@@ -147,7 +147,7 @@ use sled::{IVec, Result};
 
 impl Database {
     pub fn init(path: &Path) -> Self {
-		    // ...
+        // ...
     }
 
     // Add a peer to the database by inserting the public key into the peer
@@ -157,7 +157,7 @@ impl Database {
         let peer_bytes = bincode::serialize(&peer).unwrap();
 
         // Insert the serialised peer data into the 'peers' database tree,
-				// using the public key of the peer as the key for the database entry.
+        // using the public key of the peer as the key for the database entry.
         self.peer_tree.insert(&peer.public_key, peer_bytes)
     }
 
@@ -171,11 +171,11 @@ impl Database {
 
 You'll notice in the above code snippet that we're serialising the peer data as bincode before inserting it. The sled database we're using expects values in the form of a byte vector; bincode thus provides a neat way of storing complex datastructures (such as our `Peer` `struct`).
 
-That's enough database code for the moment. Now we can return to our Scuttlebutt-related code and complete our peer subscription flows.
+That's enough database code for the moment. Now we can return to our Scuttlebutt-related code and complete the peer subscription flows.
 
 ### Follow / Unfollow a Peer
 
-Let's open our `src/sbot.rs` module and write the functions we need to be able to follow and unfollow Scuttlebutt peers. Each function will simply take the public key of the peer whose relationship we wish to change:
+Let's open the `src/sbot.rs` module and write the functions we need to be able to follow and unfollow Scuttlebutt peers. Each function will simply take the public key of the peer whose relationship we wish to change:
 
 ```rust
 pub async fn follow_peer(public_key: &str) -> Result<String, String> {
@@ -189,7 +189,7 @@ pub async fn unfollow_peer(public_key: &str) -> Result<String, String> {
 }
 ```
 
-The `Ok(_)` variant of the returned `Result` type will contain the message reference of the published follow / unfollow message. Once again, we are transforming any possible error to a `String` for easier handling in the caller function.
+The `Ok(_)` variant of the returned `Result` type will contain the message reference of the published follow / unfollow message. Once again, we are transforming any possible error to a `String` for easier handling and reporting in the caller function.
 
 At this point we have the capability to check whether we follow a peer, to add and remove peer data to our key-value store, and to follow and unfollow a peer. Casting our minds back to the `subscribe` and `unsubscribe` route handlers of our webserver, we can now add calls to `follow_peer()` and `unfollow_peer()`:
 
@@ -253,7 +253,7 @@ As usual, we initialise a connection with the sbot and then make our method call
 
 Now let's go back to our subscribe and unsubscribe route handlers and separate some of the Scuttlebutt control flow out into the `sbot` module. Separating concerns like this will help to bring greater clarity to the handler functions.
 
-Add the following two function to `src/sbot.rs`. You'll notice that we're using a `Result` return type for each function. This will allow us to match on the outcome in our route handlers and report back to the UI. The logging makes the function look a quite messy but the sbot actions tell the story. 
+Add the following two function to `src/sbot.rs`. You'll notice that we're using a `Result` return type for each function. This will allow us to match on the outcome in our route handlers and report back to the UI. The logging makes the functions look very busy but the sbot actions tell the story. 
 
 `src/sbot.rs`
 
@@ -512,7 +512,7 @@ In addition to all of the database-related work, we added Scuttlebutt code to fo
 
 Finally, we put all the pieces together and completed the workflow for our subscription and unsubscription routes. Well done for making it this far!
 
-In the next installment we'll deal primarily with Scuttlebutt messages - learning how to get all the message authored by a peer, as well as how to filter the post-type messages and add them to our key-value database.
+In the next installment we'll deal primarily with Scuttlebutt messages - learning how to get all the messages authored by a peer, as well as how to filter down to post-type messages and add them to our key-value database.
 
 ## Funding
 
