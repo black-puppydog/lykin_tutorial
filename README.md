@@ -1,5 +1,7 @@
 # Lykin Tutorial Series
 
+Author: [@glyph](https://mycelial.technology/)
+
 ## Introduction
 
 [lykin](https://git.coopcloud.tech/glyph/lykin) is a tutorial application funded by a Secure Scuttlebutt (SSB) community grant. It is intended to showcase one way in which an SSB client application can be written using the [golgi](https://git.coopcloud.tech/golgi-ssb/golgi) client library. This tutorial series walks the reader through the creation of the lykin application.
