@@ -107,14 +107,14 @@ pub async fn get_message_stream(
     let mut sbot = init_sbot().await.unwrap();
 
     let history_stream_args = CreateHistoryStream::new(public_key.to_string())
-				// Define the shape of the returned messages: defining `keys_values`
-				// as `(true, true)` will result in messages being returned as KVTs. KVT
-				// stands for Key Value Timestamp. The Key is the message ID and the Value
-				// contains the actual data of the message (including fields such as
-				// `author`, `previous`, `hash` etc.).
+        // Define the shape of the returned messages: defining `keys_values`
+        // as `(true, true)` will result in messages being returned as KVTs. KVT
+        // stands for Key Value Timestamp. The Key is the message ID and the Value
+        // contains the actual data of the message (including fields such as
+        // `author`, `previous`, `hash` etc.).
         .keys_values(true, true)
-				// Define the starting point of the message stream. In other words,
-				// only return messages starting after the given sequence number.
+        // Define the starting point of the message stream. In other words,
+        // only return messages starting after the given sequence number.
         .after_seq(sequence_number);
 
     sbot.create_history_stream(history_stream_args)
@@ -142,16 +142,16 @@ pub async fn get_root_posts(
     while let Some(res) = history_stream.next().await {
         match res {
             Ok(msg) => {
-								// Filter by content type to only select post-type messages.
+                // Filter by content type to only select post-type messages.
                 if msg.value.is_message_type(SsbMessageContentType::Post) {
                     let content = msg.value.content.to_owned();
                     if let Value::Object(content_map) = content {
-												// If the content JSON object contains a key-value pair
-												// with a key of `root` this indicates the message
-												// is a reply to another message. The value of the `root`
-												// key is the message ID of the message being replied to.
-												// In our case, since we only want root posts, we ignore
-												// any message with a `root` field.
+                        // If the content JSON object contains a key-value pair
+                        // with a key of `root` this indicates the message
+                        // is a reply to another message. The value of the `root`
+                        // key is the message ID of the message being replied to.
+                        // In our case, since we only want root posts, we ignore
+                        // any message with a `root` field.
                         if !content_map.contains_key("root") {
                             latest_sequence = msg.value.sequence;
 
@@ -159,8 +159,8 @@ pub async fn get_root_posts(
                             let timestamp = msg.value.timestamp.round() as i64 / 1000;
                             let datetime = NaiveDateTime::from_timestamp(timestamp, 0);
                             let date = datetime.format("%d %b %Y").to_string();
-														// Copy the beginning of the post text to serve as the
-														// subject (for display in the UI).
+                            // Copy the beginning of the post text to serve as the
+                            // subject (for display in the UI).
                             let subject = text.get(0..52).map(|s| s.to_string());
 
                             let post = Post::new(
