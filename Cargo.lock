@@ -1614,6 +1614,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "part_4_posts_streams"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "golgi",
+ "log",
+ "rocket",
+ "rocket_dyn_templates",
+ "serde",
+ "sled",
+ "xdg",
+]
+
+[[package]]
 name = "pear"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
