@@ -1,7 +1,0 @@
-[ part 2 ]
-
- - start by splitting sbot and routes into modules
- - add html form to subscribe to a peer (tera template)
- - add route for subscription form submission
- - validate public key
- - add flash message
