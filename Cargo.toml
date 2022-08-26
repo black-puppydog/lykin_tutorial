@@ -2,7 +2,7 @@
 
 members = [
     "part_1_sbot_rocket",
-    "part_2_subscribe_form",
-    "part_3_database_follows",
-    "part_4_posts_streams"
+    #"part_2_subscribe_form",
+    #"part_3_database_follows",
+    #"part_4_posts_streams"
 ]
