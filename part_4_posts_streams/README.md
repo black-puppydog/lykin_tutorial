@@ -17,6 +17,15 @@ Here's what we'll tackle in this fourth part of the series:
  - Add a post to the database
  - Add a post batch to the database
 
+### Libraries
+
+The following libraries are introduced in this part:
+
+ - [async-std](https://crates.io/crates/async-std)
+ - [chrono](https://crates.io/crates/chrono)
+ - [futures](https://crates.io/crates/futures)
+ - [serde_json](https://crates.io/crates/serde_json)
+
 ### Create a Post Data Structure
 
 We'll begin by creating a `Post` struct to store data about each Scuttlebutt post we want to render in our application. The fields of our struct will diverge from the fields we expect in a Scuttlebutt post-type message. Open `src/db.rs` and add the following code (I've included code comments to further define each field):
@@ -130,6 +139,16 @@ Now that we have the ability to obtain all messages authored by a specific peer,
 `src/sbot.rs`
 
 ```rust
+use chrono::NaiveDateTime;
+use golgi::{
+    api::history_stream::CreateHistoryStream},
+    messages::{SsbMessageContentType, SsbMessageKVT},
+    sbot::GolgiError,
+};
+use serde_json::value::Value;
+
+use crate::db::Post;
+
 // Filter a stream of messages and return a vector of root posts.
 pub async fn get_root_posts(
     history_stream: impl futures::Stream<Item = Result<SsbMessageKVT, GolgiError>>,
@@ -279,6 +298,8 @@ On most occasions we'll find ourselves in a situation where we wish to add multi
 `src/db.rs`
 
 ```rust
+use sled::Batch;
+
 impl Database {
     // ...
 
