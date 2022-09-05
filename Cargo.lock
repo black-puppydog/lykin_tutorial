@@ -1640,11 +1640,14 @@ version = "0.1.0"
 dependencies = [
  "async-std",
  "bincode",
+ "chrono",
+ "futures",
  "golgi",
  "log",
  "rocket",
  "rocket_dyn_templates",
  "serde",
+ "serde_json",
  "sled",
  "xdg",
 ]

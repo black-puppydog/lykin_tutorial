@@ -1,7 +1,17 @@
 use std::env;
 
-use golgi::{api::friends::RelationshipQuery, sbot::Keystore, Sbot};
+use async_std::stream::StreamExt;
+use chrono::NaiveDateTime;
+use golgi::{
+    api::{friends::RelationshipQuery, history_stream::CreateHistoryStream},
+    messages::{SsbMessageContentType, SsbMessageKVT},
+    sbot::Keystore,
+    GolgiError, Sbot,
+};
 use log::{info, warn};
+use serde_json::value::Value;
+
+use crate::db::Post;
 
 /// Initialise a connection to a Scuttlebutt server.
 pub async fn init_sbot() -> Result<Sbot, String> {
@@ -127,4 +137,77 @@ pub async fn unfollow_if_following(remote_peer: &str) -> Result<(), String> {
         warn!("{}", err_msg);
         Err(err_msg)
     }
+}
+
+/// Return a stream of messages authored by the given public key.
+///
+/// This returns all messages regardless of type.
+pub async fn get_message_stream(
+    public_key: &str,
+    sequence_number: u64,
+) -> impl futures::Stream<Item = Result<SsbMessageKVT, GolgiError>> {
+    let mut sbot = init_sbot().await.unwrap();
+
+    let history_stream_args = CreateHistoryStream::new(public_key.to_string())
+        .keys_values(true, true)
+        .after_seq(sequence_number);
+
+    sbot.create_history_stream(history_stream_args)
+        .await
+        .unwrap()
+}
+
+/// Filter a stream of messages and return a vector of root posts.
+///
+/// Each returned vector element includes the key of the post, the content
+/// text, the date the post was published, the sequence number of the post
+/// and whether it is read or unread.
+pub async fn get_root_posts(
+    history_stream: impl futures::Stream<Item = Result<SsbMessageKVT, GolgiError>>,
+) -> (u64, Vec<Post>) {
+    let mut latest_sequence = 0;
+    let mut posts = Vec::new();
+
+    futures::pin_mut!(history_stream);
+
+    while let Some(res) = history_stream.next().await {
+        match res {
+            Ok(msg) => {
+                if msg.value.is_message_type(SsbMessageContentType::Post) {
+                    let content = msg.value.content.to_owned();
+                    if let Value::Object(content_map) = content {
+                        if !content_map.contains_key("root") {
+                            latest_sequence = msg.value.sequence;
+
+                            let text = match content_map.get_key_value("text") {
+                                Some(value) => value.1.to_string(),
+                                None => String::from(""),
+                            };
+                            let timestamp = msg.value.timestamp.round() as i64 / 1000;
+                            let datetime = NaiveDateTime::from_timestamp(timestamp, 0);
+                            let date = datetime.format("%d %b %Y").to_string();
+                            let subject = text.get(0..52).map(|s| s.to_string());
+
+                            let post = Post::new(
+                                msg.key.to_owned(),
+                                text,
+                                date,
+                                msg.value.sequence,
+                                timestamp,
+                                subject,
+                            );
+
+                            posts.push(post)
+                        }
+                    }
+                }
+            }
+            Err(err) => {
+                // Print the `GolgiError` of this element to `stderr`.
+                warn!("err: {:?}", err);
+            }
+        }
+    }
+
+    (latest_sequence, posts)
 }

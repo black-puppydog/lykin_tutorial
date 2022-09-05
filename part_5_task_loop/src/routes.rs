@@ -1,3 +1,4 @@
+use async_std::channel::Sender;
 use log::{info, warn};
 use rocket::{
     form::Form,
@@ -10,7 +11,9 @@ use rocket_dyn_templates::{context, Template};
 
 use crate::{
     db::{Database, Peer},
-    sbot, utils,
+    sbot,
+    task_loop::Task,
+    utils,
 };
 
 #[derive(FromForm)]
@@ -31,6 +34,7 @@ pub async fn home(flash: Option<FlashMessage<'_>>) -> Template {
 #[post("/subscribe", data = "<peer>")]
 pub async fn subscribe_form(
     db: &State<Database>,
+    tx: &State<Sender<Task>>,
     peer: Form<PeerForm>,
 ) -> Result<Redirect, Flash<Redirect>> {
     if let Err(e) = utils::validate_public_key(&peer.public_key) {
@@ -55,6 +59,13 @@ pub async fn subscribe_form(
                 // Add the peer to the database.
                 if db.add_peer(peer_info).is_ok() {
                     info!("Added {} to 'peers' database tree", &peer.public_key);
+                    let peer_id = peer.public_key.to_string();
+
+                    // Fetch all root posts authored by the peer we're subscribing
+                    // to. Posts will be added to the key-value database.
+                    if let Err(e) = tx.send(Task::FetchAllPosts(peer_id)).await {
+                        warn!("Task loop error: {}", e)
+                    }
                 } else {
                     let err_msg = format!(
                         "Failed to add peer {} to 'peers' database tree",
@@ -109,33 +120,3 @@ pub async fn unsubscribe_form(
 
     Ok(Redirect::to(uri!(home)))
 }
-
-/*
-#[post("/subscribe", data = "<peer>")]
-pub async fn subscribe_form(peer: Form<PeerForm>) -> Result<Redirect, Flash<Redirect>> {
-    if let Err(e) = utils::validate_public_key(&peer.public_key) {
-        let validation_err_msg = format!("Public key {} is invalid: {}", &peer.public_key, e);
-        warn!("{}", validation_err_msg);
-        return Err(Flash::error(Redirect::to(uri!(home)), validation_err_msg));
-    } else {
-        info!("Public key {} is valid", &peer.public_key);
-        sbot::follow_if_not_following(&peer.public_key).await;
-    }
-
-    Ok(Redirect::to(uri!(home)))
-}
-
-#[post("/unsubscribe", data = "<peer>")]
-pub async fn unsubscribe_form(peer: Form<PeerForm>) -> Result<Redirect, Flash<Redirect>> {
-    if let Err(e) = utils::validate_public_key(&peer.public_key) {
-        let validation_err_msg = format!("Public key {} is invalid: {}", &peer.public_key, e);
-        warn!("{}", validation_err_msg);
-        return Err(Flash::error(Redirect::to(uri!(home)), validation_err_msg));
-    } else {
-        info!("Public key {} is valid", &peer.public_key);
-        sbot::unfollow_if_following(&peer.public_key).await;
-    }
-
-    Ok(Redirect::to(uri!(home)))
-}
-*/

@@ -20,6 +20,7 @@ async fn rocket() -> _ {
         .place_config_file("database")
         .expect("cannot create database directory");
     let db = Database::init(&db_path);
+    let db_clone = db.clone();
 
     // Create a message passing channel.
     let (tx, rx) = channel::unbounded();
@@ -27,7 +28,7 @@ async fn rocket() -> _ {
 
     // Spawn the task loop, passing in the receiver half of the channel.
     info!("Spawning task loop");
-    task_loop::spawn(rx).await;
+    task_loop::spawn(db_clone, rx).await;
 
     rocket::build()
         .manage(db)
