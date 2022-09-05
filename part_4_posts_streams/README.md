@@ -314,3 +314,7 @@ In the next tutorial installment we'll write an asynchronous task loop to run ba
 ## Funding
 
 This work has been funded by a Scuttlebutt Community Grant.
+
+## Contributions
+
+I would love to continue working on the Rust Scuttlebutt ecosystem, writing code and documentation, but I need your help. Please consider contributing to [my Liberapay account](https://liberapay.com/glyph) to support me in my coding and cultivation efforts.
