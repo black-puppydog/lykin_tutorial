@@ -126,6 +126,26 @@ impl Database {
         self.peer_tree.insert(&peer.public_key, peer_bytes)
     }
 
+    /// Get a single peer from the peer tree, defined by the given public key.
+    /// The byte value for the matching entry, if found, is deserialized from
+    /// bincode into an instance of the Peer struct.
+    pub fn get_peer(&self, public_key: &str) -> Result<Option<Peer>> {
+        debug!(
+            "Retrieving peer data for {} from 'peers' database tree",
+            &public_key
+        );
+        let peer = self
+            .peer_tree
+            .get(public_key.as_bytes())
+            .unwrap()
+            .map(|peer| {
+                debug!("Deserializing peer data for {} from bincode", &public_key);
+                bincode::deserialize(&peer).unwrap()
+            });
+
+        Ok(peer)
+    }
+
     /// Remove a peer from the database, as represented by the given public
     /// key.
     pub fn remove_peer(&self, public_key: &str) -> Result<()> {

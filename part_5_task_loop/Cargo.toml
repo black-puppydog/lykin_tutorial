@@ -1,5 +1,5 @@
 [package]
-name = "part_4_posts_streams"
+name = "part_5_task_loop"
 version = "0.1.0"
 edition = "2021"
 

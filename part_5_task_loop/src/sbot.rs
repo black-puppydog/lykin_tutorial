@@ -63,6 +63,16 @@ pub async fn unfollow_peer(public_key: &str) -> Result<String, String> {
     sbot.unfollow(public_key).await.map_err(|e| e.to_string())
 }
 
+/// Return the name (self-identifier) for the peer associated with the given
+/// public key.
+///
+/// The public key of the peer will be returned if a name is not found.
+pub async fn get_name(public_key: &str) -> Result<String, String> {
+    let mut sbot = init_sbot().await?;
+
+    sbot.get_name(public_key).await.map_err(|e| e.to_string())
+}
+
 /// Check the follow status of a remote peer and follow them if not already
 /// following.
 pub async fn follow_if_not_following(remote_peer: &str) -> Result<(), String> {
@@ -145,16 +155,6 @@ pub async fn get_message_stream(
     sbot.create_history_stream(history_stream_args)
         .await
         .unwrap()
-}
-
-/// Return the name (self-identifier) for the peer associated with the given
-/// public key.
-///
-/// The public key of the peer will be returned if a name is not found.
-pub async fn get_name(public_key: &str) -> Result<String, String> {
-    let mut sbot = init_sbot().await?;
-
-    sbot.get_name(public_key).await.map_err(|e| e.to_string())
 }
 
 /// Filter a stream of messages and return a vector of root posts.

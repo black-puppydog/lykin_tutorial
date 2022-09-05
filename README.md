@@ -12,7 +12,11 @@ Author: [@glyph](https://mycelial.technology/)
  - [Part 2: Subscription Form and Key Validation](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_2_subscribe_form)
  - Part 3: Database and Follows
  - Part 4: Posts and Message Streams
- - ...
+ - Part 5: Task Loop
+ - Part 6: Display Peers and Update UI
+ - Part 7: Fetch Latest Posts
+ - Part 8: Read, Unread and Delete Posts
+ - Part 9: Extension Ideas and Conclusion
 
 ## Links
 
