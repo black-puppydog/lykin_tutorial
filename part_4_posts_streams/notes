@@ -1,0 +1,6 @@
+[ part 4 ]
+
+ - create basic post struct
+ - get message stream for peer (createHistoryStream)
+ - filter root posts from message stream
+ - add posts to database
