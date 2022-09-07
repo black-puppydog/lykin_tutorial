@@ -1,6 +1,6 @@
 # lykin tutorial
 
-## Part 6: Update UI and Display Peers List
+## Part 6: UI Layout and Peers List
 
 ### Introduction
 

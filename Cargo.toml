@@ -6,5 +6,6 @@ members = [
     #"part_3_database_follows",
     #"part_4_posts_streams",
     #"part_5_task_loop",
-    #"part_6_update_ui"
+    #"part_6_ui_layout",
+    #"part_7_latest_posts"
 ]
