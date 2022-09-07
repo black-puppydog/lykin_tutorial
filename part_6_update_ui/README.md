@@ -210,7 +210,7 @@ Now we'll write another simple `for` loop to display a list of posts. Eventually
   {% if posts %}
   <ul>
   {% for post in posts -%} 
-	  Subject
+    Subject placeholder
   {%- endfor %}
   </ul>
   {% endif %}
