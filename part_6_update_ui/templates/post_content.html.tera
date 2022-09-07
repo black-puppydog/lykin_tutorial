@@ -1,6 +1,0 @@
-<div class="content">
-{% if post %}
-  {{ post.text }}
-{% endif %}
-</div>
-
