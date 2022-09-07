@@ -1,0 +1,20 @@
+[package]
+name = "part_7_latest_posts"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-std = "1.10"
+bincode = "1.3"
+chrono = "0.4"
+futures = "0.3"
+golgi = { git = "https://git.coopcloud.tech/golgi-ssb/golgi.git" }
+log = "0.4"
+rocket = "0.5.0-rc.1"
+rocket_dyn_templates = { version = "0.1.0-rc.1", features = ["tera"] }
+serde = "1"
+serde_json = "1"
+sled = "0.34"
+xdg = "2.4.1"
