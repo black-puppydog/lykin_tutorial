@@ -21,14 +21,13 @@ Here's what we'll tackle in this sixth part of the series:
 	 - Peer list
 	 - Post list
 	 - Post content
- - Update route handlers to return templates
  - Populate peer list with data
 
 ### Define Layout Shape
 
 Before getting started with code, it might be helpful to know the shape of the layout we'll be building in this installment.
 
-The layout is composed of a topbar for navigation, a peers column on the left, and a column of posts and post content on the right. Here's a diagram to illustrate the basic shape:
+The layout is composed of a topbar for navigation, a peers column on the left and a column of posts and post content on the right. Here's a diagram to illustrate the basic shape:
 
 ```text
 ┌───────────────────────────────────────────────────┐
@@ -180,7 +179,7 @@ The `{% ... %}` syntax in the template code is Tera syntax (inspired by Jinja2 a
 
 ### Create Peer List Template
 
-This one couldn't be much simpler. We define a `div` element for our list of peers and populate an unordered list. We first try to display the name of the peer and fallback to the public key if the `name` field is an empty. Each peer in this template corresponds with an instance of the `Peer` struct defined in our `src/db.rs` file.
+This one couldn't be much simpler. We define a `div` element for our list of peers and populate an unordered list. We first try to display the name of the peer and fallback to the public key if the `name` string is empty. Each peer in this template corresponds with an instance of the `Peer` struct defined in our `src/db.rs` file, hence the `name` and `public_key` fields.
 
 `templates/peer_list.html.tera`
 
@@ -202,7 +201,7 @@ This one couldn't be much simpler. We define a `div` element for our list of pee
 
 ### Create Post List Template
 
-Now we'll write another simple `for` loop to display a list of posts. Eventually, we'll update this template to display the subject of each post authored by the selected peer. Clicking on a peer in the peer list will serve as the trigger to update the selected peer variable, allowing us to define whose posts we should be displaying in this list.
+Now we'll write another simple `for` loop to display a list of posts. Eventually we'll update this template to display the subject of each post authored by the selected peer. Clicking on a peer in the peer list will serve as the trigger to update the selected peer variable, allowing us to define whose posts we should be displaying in this list.
 
 `templates/post_list.html.tera`
 
@@ -272,7 +271,7 @@ impl Database {
     // struct.
     pub fn get_peers(&self) -> Vec<Peer> {
         debug!("Retrieving data for all peers in the 'peers' database tree");
-        // Define an empty vector to store the list of peer.
+        // Define an empty vector to store the list of peers.
         let mut peers = Vec::new();
 
         self.peer_tree
@@ -298,7 +297,7 @@ Run the application, visit `localhost:8000` in your browser and you should see a
 
 ### Conclusion
 
-In this installments we took strides in improving the visual aspect of our application. We defined a layout using CSS and HTML templates, added a fileserver to serve assets, updated our `home` route handler to provide the required context data to our templates and added a `get_peers()` method to our database.
+In this installment we took strides in improving the visual aspect of our application. We defined a layout using CSS and HTML templates, added a fileserver to serve assets, updated our `home` route handler to provide the required context data to our templates and added a `get_peers()` method to the database.
 
 Our application has come a long way. We can now subscribe and unsubscribe to the root posts of our peers and display a list of subscribed peers in a neat user interface.
 
