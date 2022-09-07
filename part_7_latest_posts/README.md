@@ -4,7 +4,7 @@
 
 ### Introduction
 
-In the last tutorial installment we updated the user interface of our application and added the ability to display a list of peer subscriptions. Today we'll turn our attention to staying up to date with the latest posts authored by the peers we subscribe to. In doing so, we'll add the ability to keep track of the latest sequence number for each peer we follow - as well as syncing only the latest posts for each peer.
+In the last tutorial installment we updated the user interface of our application and added the ability to display a list of peer subscriptions. Today we'll turn our attention to staying up-to-date with the latest posts authored by the peers we subscribe to. In doing so, we'll add the ability to keep track of the latest sequence number for each peer we follow - as well as syncing only the latest posts for each peer.
 
 This installment will be a short one, since much of the groundwork has already been done in previous installments.
 
@@ -13,10 +13,10 @@ This installment will be a short one, since much of the groundwork has already b
  - Update the database to store the latest sequence number
  - Update the sequence number when fetching posts
  - Add a task to fetch the latest posts
- - Add a route handler to invoke the FetchLatestPosts task
+ - Add a route handler to invoke the `FetchLatestPosts` task
  - Update the navigation template
 
-### Update the Database to Store Latest Sequence Number
+### Update the Database to Store the Latest Sequence Number
 
 The main objective of this tutorial installment is to be able to request only the latest messages for each peer we subscribe to from the sbot. In order to do so, we need to know the sequence number of the most recently published message already in our key-value store. With that information, we can say to the sbot: "please give me all messages for peer X with sequence number greater than Y".
 
@@ -30,7 +30,7 @@ We're going to add a `latest_sequence` field to the `Peer` struct in our databas
 pub struct Peer {
     pub public_key: String,
     pub name: String,
-		pub latest_sequence: u64,
+    pub latest_sequence: u64,
 }
 
 impl Peer {
@@ -38,12 +38,12 @@ impl Peer {
         Peer {
             public_key: public_key.to_string(),
             name: "".to_string(),
-						// Set the value of latest_sequence to 0.
+            // Set the value of latest_sequence to 0.
             latest_sequence: 0,
         }
     }
 
-		// ...
+    // ...
 
     // Modify the latest_sequence field of an instance of the Peer struct,
     // leaving the other values unchanged.
@@ -58,7 +58,7 @@ impl Peer {
 
 ### Update the Sequence Number When Fetching Posts
 
-Now that we have a way to store and update the latest sequence number for each peer i our database, we need to update our post-fetching function in the task loop accordingly.
+Now that we have a way to store and update the latest sequence number for each peer in our database, we need to update our post-fetching function in the task loop accordingly.
 
 `src/task_loop.rs`
 
@@ -103,13 +103,13 @@ pub enum Task {
     FetchLatestName(String),
 }
 
-/// Spawn an asynchronous loop which receives tasks over an unbounded channel
-/// and invokes task functions accordingly.
+// Spawn an asynchronous loop which receives tasks over an unbounded channel
+// and invokes task functions accordingly.
 pub async fn spawn(db: Database, rx: Receiver<Task>) {
     task::spawn(async move {
         while let Ok(task) = rx.recv().await {
             match task {
-							  // Fetch only the latest messages authored by the given peer,
+                // Fetch only the latest messages authored by the given peer,
                 // ie. messages with sequence numbers greater than those
                 // which are already stored in the database.
                 //
@@ -121,14 +121,14 @@ pub async fn spawn(db: Database, rx: Receiver<Task>) {
                         fetch_posts_and_update_db(&db, peer_id, peer.latest_sequence).await;
                     }
                 }
-								// ...
-						}
-				}
-		}
+                // ...
+            }
+        }
+    }
 }
 ```
 
-You'll notice that the same function (`fetch_posts_and_update_db()`) is called for both the `FetchAllPosts` and `FetchLatestPosts` tasks; the difference is the value passed in for the third parameter: `after_sequence`. When fetching all posts we pass in a value of 0, while the value of `peer.latest_sequence` is passed when fetching only the latest posts. This relatively simple addition to our code has provided a very efficient means of syncing the latest posts from our local go-sbot instance to our key-value database.
+You'll notice that the same function (`fetch_posts_and_update_db()`) is called by both the `FetchAllPosts` and `FetchLatestPosts` tasks; the difference is the value passed in for the third parameter: `after_sequence`. When fetching all posts we pass in a value of 0, while the value of `peer.latest_sequence` is passed when fetching only the latest posts. This relatively simple addition to our code has provided a very efficient means of syncing the latest posts from our local go-sbot instance to the key-value database.
 
 ### Add a Route Handler to Invoke the FetchLatestPosts Task
 
@@ -140,7 +140,7 @@ Now we can begin exposing a means for the user to invoke the `FetchLatestPosts` 
 #[get("/posts/download_latest")]
 pub async fn download_latest_posts(db: &State<Database>, tx: &State<Sender<Task>>) -> Redirect {
     // Iterate through the list of peers in the key-value database.
-		// These are all the peers we're subscribed to via lykin.
+    // These are all the peers we're subscribed to via lykin.
     for peer in db.get_peers() {
         // Fetch the latest root posts authored by each peer we're
         // subscribed to. Posts will be added to the key-value database.
@@ -164,7 +164,7 @@ pub async fn download_latest_posts(db: &State<Database>, tx: &State<Sender<Task>
 
 You'll notice in the code above that we also invoke the `FetchLatestName` task for each peer. This ensures that our application stays up-to-date with the ways our peers have chosen to name themselves.
 
-Now we need to mount the `download_latest_posts()` route to our Rocket application:
+Now we need to mount the `download_latest_posts` route to our Rocket application:
 
 `src/main.rs`
 
@@ -183,7 +183,7 @@ async fn rocket() -> _ {
                 home,
                 subscribe_form,
                 unsubscribe_form,
-								// Here we add the route we just wrote.
+                // Here we add the route we just wrote.
                 download_latest_posts
             ],
         )
@@ -206,10 +206,10 @@ We need to remove the `disabled` and `icon` classes from the 'Download latest po
 <div class="nav">
   <div class="flex-container">
     <a href="/posts/download_latest" title="Download latest posts">
-        <img src="/icons/download.png">
+      <img src="/icons/download.png">
     </a>
-		<!-- ... -->
-	</div>
+    <!-- ... -->
+  </div>
 </div>
 ```
 

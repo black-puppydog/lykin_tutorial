@@ -50,6 +50,7 @@ async fn fetch_name_and_update_db(db: &Database, peer_id: String) {
 pub enum Task {
     Cancel,
     FetchAllPosts(String),
+    FetchLatestPosts(String),
     FetchLatestName(String),
 }
 
@@ -65,6 +66,18 @@ pub async fn spawn(db: Database, rx: Receiver<Task>) {
                 Task::FetchAllPosts(peer_id) => {
                     info!("Fetching all posts for peer: {}", peer_id);
                     fetch_posts_and_update_db(&db, peer_id, 0).await;
+                }
+                // Fetch only the latest messages authored by the given peer,
+                // ie. messages with sequence numbers greater than those
+                // which are already stored in the database.
+                //
+                // Retrieve the root posts from those messages and insert them
+                // into the posts tree of the database.
+                Task::FetchLatestPosts(peer_id) => {
+                    if let Ok(Some(peer)) = db.get_peer(&peer_id) {
+                        info!("Fetching latest posts for peer: {}", peer_id);
+                        fetch_posts_and_update_db(&db, peer_id, peer.latest_sequence).await;
+                    }
                 }
                 // Fetch the latest name for the given peer and update the
                 // peer entry in the peers tree of the database.

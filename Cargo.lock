@@ -1655,7 +1655,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "part_6_update_ui"
+name = "part_6_ui_layout"
 version = "0.1.0"
 dependencies = [
  "async-std",

@@ -117,3 +117,25 @@ pub async fn unsubscribe_form(
 
     Ok(Redirect::to(uri!(home)))
 }
+
+#[get("/posts/download_latest")]
+pub async fn download_latest_posts(db: &State<Database>, tx: &State<Sender<Task>>) -> Redirect {
+    for peer in db.get_peers() {
+        // Fetch the latest root posts authored by each peer we're
+        // subscribed to. Posts will be added to the key-value database.
+        if let Err(e) = tx
+            .send(Task::FetchLatestPosts(peer.public_key.clone()))
+            .await
+        {
+            warn!("Task loop error: {}", e)
+        }
+
+        // Fetch the latest name for each peer we're subscribed to and update
+        // the database.
+        if let Err(e) = tx.send(Task::FetchLatestName(peer.public_key)).await {
+            warn!("Task loop error: {}", e)
+        }
+    }
+
+    Redirect::to(uri!(home))
+}
