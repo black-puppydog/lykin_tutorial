@@ -1,0 +1,14 @@
+<div class="peers">
+  <ul>
+  {% for peer in peers -%} 
+    <li>
+    {% if peer.name %}
+      {{ peer.name }}
+    {% else %}
+      {{ peer.public_key }}
+    {% endif %}
+    </li>
+  {%- endfor %}
+  </ul>
+</div>
+

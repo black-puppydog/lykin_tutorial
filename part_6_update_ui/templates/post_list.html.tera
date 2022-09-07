@@ -1,0 +1,10 @@
+<div class="posts">
+  {% if posts %}
+  <ul>
+  {% for post in posts -%} 
+	  Subject
+  {%- endfor %}
+  </ul>
+  {% endif %}
+</div>  
+

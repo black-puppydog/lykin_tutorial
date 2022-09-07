@@ -13,7 +13,7 @@ Author: [@glyph](https://mycelial.technology/)
  - Part 3: Database and Follows
  - Part 4: Posts and Message Streams
  - Part 5: Task Loop
- - Part 6: Display Peers and Update UI
+ - Part 6: Update UI and Display Peers List
  - Part 7: Fetch Latest Posts
  - Part 8: Read, Unread and Delete Posts
  - Part 9: Extension Ideas and Conclusion
