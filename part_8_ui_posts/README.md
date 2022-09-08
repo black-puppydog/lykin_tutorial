@@ -15,7 +15,7 @@ In the last tutorial installment we added the ability to sync the latest posts a
  - Mount the post route handlers
  - Update templates
    - Peer list
-	 - Post list
+   - Post list
    - Post content
 
 ### Get a Post From the Database
@@ -188,7 +188,7 @@ async fn rocket() -> _ {
 
 ### Update Peer List Template
 
-We need to update the peer list template so that each name in the list is wrapped in an anchor element with an `href` tag value of `/posts/<public_key>`. The `selected_peer` context variable will also come in handy here: we can use it to render the name of a peer as bold text if it is the currently selected peer.
+We need to update the peer list template so that each name in the list is wrapped in an anchor element with an `href` tag value of `/posts/<public_key>`. The `selected_peer` context variable will come in handy here: we can use it to render the name of a peer as bold text if it is the currently selected peer.
 
 `templates/peer_list.html.tera`
 
@@ -249,11 +249,11 @@ When we wrote the initial post list template we simply printed `Subject placehol
 
 Here we see the `selected_post` context variable in action, in much the same way as the `selected_peer` variable was utilised in the peer list template. The `selected` class is applied to the selected post; this changes the background colour of the element to make it stand out from the rest of the posts.
 
-The `href` tag value of each post in the list is constructed using the `selected_peer` and `post.key` values, both of which are strictly URL encoded using a Tera filter. Then comes the code to display the post subject, if it exists, along with the post date. If `post.subject` is `None` then we display the `post.text` instead. This would occur if the post text contains less than 52 characters (the length defined for the subject text). Finally, the `post.date` is displayed as the last element in the list item.
+The `href` tag value of each post in the list is constructed using the `selected_peer` and `post.key` values, both of which are strictly URL-encoded using a Tera filter. Then comes the code to display the post subject, if it exists, along with the post date. If `post.subject` is `None` then we display the `post.text` instead. This would occur if the post text contains less than 52 characters (the length defined for the subject text). Finally, the `post.date` is displayed as the last element in the list item.
 
 ### Update Post Content Template
 
-Before wrapping up this installment of series, we're going to make one small change to the post content template to remove the inverted commas which wrap the text of each post in our database. We'll also call the `trim` Tera filter to remove any leading and trailing whitespace characters:
+Before wrapping up this installment of the series, we're going to make one small change to the post content template to remove the inverted commas which wrap the text of each post in our database. We'll also call the `trim` Tera filter to remove any leading and trailing whitespace characters:
 
 `templates/post_content.html.tera`
 
@@ -269,7 +269,7 @@ Before wrapping up this installment of series, we're going to make one small cha
 
 In this installment we brought our user-interface to life by added the ability to list posts and display post content. We wrote methods to retrieve posts from the key-value database and added route handlers to render post lists and post content. We also updated the HTML templates of our application to render the post-related data.
 
-Most of the core logic of our application is now complete! In the next installment we'll add the ability to mark individual posts as read or unread. We'll also add a means of deleting individual posts; all via the web interface.
+Most of the core logic of our application is now complete! In the next installment we'll add the ability to mark individual posts as read or unread and will display the total number of unread posts for each peer. We'll also add a means of deleting individual posts; all via the web interface.
 
 ## Funding
 
