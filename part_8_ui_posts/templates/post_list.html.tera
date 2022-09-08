@@ -1,0 +1,20 @@
+<div class="posts">
+  {% if posts %}
+  <ul>
+  {% for post in posts -%} 
+    <li{% if selected_post and post.key == selected_post %} class="selected"{% endif %}>
+      <a class="flex-container" href="/posts/{{ selected_peer | urlencode_strict }}/{{ post.key | urlencode_strict }}">
+        <code>
+        {% if post.subject %}
+          {{ post.subject | trim_start_matches(pat='"') }}...
+        {% else %}
+          {{ post.text | trim_start_matches(pat='"') | trim_end_matches(pat='"') }}
+        {% endif %}
+        </code>
+        <p>{{ post.date }}</p>
+      </a>
+    </li>
+  {%- endfor %}
+  </ul>
+  {% endif %}
+</div>

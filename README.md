@@ -15,7 +15,7 @@ Author: [@glyph](https://mycelial.technology/)
  - Part 5: Task Loop
  - Part 6: UI Layout and Peers List
  - Part 7: Latest Posts and Names
- - Part 8: Posts List and Post Content
+ - Part 8: Post List and Post Content
  - Part 9: Read, Unread and Delete
  - Part 10: Extension Ideas and Conclusion
 

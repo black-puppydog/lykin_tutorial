@@ -1,0 +1,17 @@
+<div class="peers">
+  <ul>
+  {% for peer in peers -%} 
+    <li>
+      <a class="flex-container" href="/posts/{{ peer.public_key | urlencode_strict }}">
+        <code{% if selected_peer and peer.public_key == selected_peer %} style="font-weight: bold;"{% endif %}>
+        {% if peer.name %}
+          {{ peer.name }}
+        {% else %}
+          {{ peer.public_key }}
+        {% endif %}
+        </code>
+      </a>
+    </li>
+  {%- endfor %}
+  </ul>
+</div>
