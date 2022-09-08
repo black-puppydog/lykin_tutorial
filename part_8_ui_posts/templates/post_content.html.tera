@@ -1,0 +1,5 @@
+<div class="content">
+{% if post %}
+  {{ post.text | trim_start_matches(pat='"') | trim_end_matches(pat='"') | trim }}
+{% endif %}
+</div>
