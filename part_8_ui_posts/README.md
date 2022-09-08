@@ -265,6 +265,8 @@ Before wrapping up this installment of the series, we're going to make one small
 </div>
 ```
 
+Now you can run the application with `cargo run` and test it out! Remember, you may need to wipe the key-value database if you encounter any `500` errors when navigating to the web interface in your browser.
+
 ### Conclusion
 
 In this installment we brought our user-interface to life by added the ability to list posts and display post content. We wrote methods to retrieve posts from the key-value database and added route handlers to render post lists and post content. We also updated the HTML templates of our application to render the post-related data.
