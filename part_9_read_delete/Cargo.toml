@@ -3,8 +3,6 @@ name = "part_9_read_delete"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 async-std = "1.10"
 bincode = "1.3"
