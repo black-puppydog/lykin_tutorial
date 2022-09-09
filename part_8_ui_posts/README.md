@@ -140,7 +140,8 @@ pub async fn post(db: &State<Database>, public_key: &str, msg_id: &str) -> Templ
         selected_peer: &public_key,
         selected_post: &msg_id,
         posts: &posts,
-        post: &post
+        post: &post,
+        post_is_selected: &true
     };
 
     Template::render("base", context)
