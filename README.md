@@ -10,14 +10,14 @@ Author: [@glyph](https://mycelial.technology/)
 
  - [Part 1: Sbot and Web Server](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_1_sbot_rocket)
  - [Part 2: Subscription Form and Key Validation](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_2_subscribe_form)
- - Part 3: Database and Follows
- - Part 4: Posts and Message Streams
- - Part 5: Task Loop
- - Part 6: UI Layout and Peers List
- - Part 7: Latest Posts and Names
- - Part 8: Post List and Post Content
- - Part 9: Read, Unread and Delete
- - Part 10: Extension Ideas and Conclusion
+ - [Part 3: Database and Follows](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_3_database_follows)
+ - [Part 4: Posts and Message Streams](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_4_posts_streams)
+ - [Part 5: Task Loop](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_5_task_loop)
+ - [Part 6: UI Layout and Peers List](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_6_ui_layout)
+ - [Part 7: Latest Posts and Names](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_7_latest_posts)
+ - [Part 8: Post List and Post Content](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_8_ui_posts)
+ - [Part 9: Read, Unread and Delete](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_9_read_delete)
+ - [Part 10: Extension Ideas and Conclusion](https://git.coopcloud.tech/glyph/lykin_tutorial/src/branch/main/part_10_extension_ideas)
 
 ## Links
 
