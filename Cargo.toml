@@ -8,5 +8,6 @@ members = [
     "part_5_task_loop",
     "part_6_ui_layout",
     "part_7_latest_posts",
-    "part_8_ui_posts"
+    "part_8_ui_posts",
+    "part_9_read_delete"
 ]
