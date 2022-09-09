@@ -219,6 +219,8 @@ We still need to mount these routes to our Rocket application in `src/main.rs` a
 
 We already have a `remove_peer()` method in our database which is used when we unsubscribe from a peer. Now we'll write the equivalent method for a post.
 
+Remember that we are deleting the post from our key-value store, _not_ the sbot database! The message will remain in the log kept by the sbot.
+
 `src/db.rs`
 
 ```rust
