@@ -1,0 +1,55 @@
+  <div class="nav">
+    <div class="flex-container">
+      <a href="/posts/download_latest" title="Download latest posts">
+        <img src="/icons/download.png">
+      </a>
+      {% if post_is_selected %}
+        {% set selected_peer_encoded = selected_peer | urlencode_strict %}
+        {% set selected_post_encoded = selected_post | urlencode_strict %}
+        {% if post.read %}
+          {% set mark_unread_url = "/posts/" ~ selected_peer_encoded ~ "/" ~ selected_post_encoded ~ "/unread" %}
+          <a class="disabled icon" title="Mark as read">
+            <img src="/icons/read_post.png">
+          </a>
+          <a href={{ mark_unread_url }} class="icon" title="Mark as unread">
+            <img src="/icons/unread_post.png">
+          </a>
+        {% else %}
+          {% set mark_read_url = "/posts/" ~ selected_peer_encoded ~ "/" ~ selected_post_encoded ~ "/read" %}
+          <a href={{ mark_read_url }} class="icon" title="Mark as read">
+            <img src="/icons/read_post.png">
+          </a>
+          <a class="disabled icon" title="Mark as unread">
+            <img src="/icons/unread_post.png">
+          </a>
+        {% endif %}
+        {% set delete_post_url = "/posts/" ~ selected_peer_encoded ~ "/" ~ selected_post_encoded ~ "/delete" %}
+        <a href={{ delete_post_url }} class="icon" title="Delete post">
+          <img src="/icons/delete_post.png">
+        </a>
+      {% else %}
+        <a class="disabled icon" title="Mark as read">
+          <img src="/icons/read_post.png">
+        </a>
+        <a class="disabled icon" title="Mark as unread">
+          <img src="/icons/unread_post.png">
+        </a>
+        <a class="disabled icon" title="Delete post">
+          <img src="/icons/delete_post.png">
+        </a>
+      {% endif %}
+      <form class="flex-container" action="/subscribe" method="post">
+        <label for="public_key">Public Key</label>
+        {% if selected_peer %}
+          <input type="text" id="public_key" name="public_key" maxlength=53 value={{ selected_peer }}>
+        {% else %}
+          <input type="text" id="public_key" name="public_key" maxlength=53>
+        {% endif %}
+        <input type="submit" value="Subscribe">
+        <input type="submit" value="Unsubscribe" formaction="/unsubscribe">
+      </form>
+      {% if flash and flash.kind == "error" %}
+      <p class="flash-message">[ {{ flash.message }} ]</p>
+      {% endif %}
+    </div>
+  </div>
