@@ -36,7 +36,7 @@ The application we've written is very basic and still quite rough around the edg
 
 I hope I've given you a few ideas for further development and that you feel excited and equipped to continue playing with this application. Make it your own! Modify the CSS, add new features, remove what you don't like...have fun.
 
-If you do end up taking this futher, I'd love to hear about it! Please send me an email on `glyph@mycelial.technology` or on Scuttlebutt. You could also post an issue on the `lykin` git repo.
+If you do end up taking this futher, I'd love to hear about it! Please send me an email on `glyph@mycelial.technology` or on Scuttlebutt (`@HEqy940T6uB+T+d9Jaa58aNfRzLx9eRWqkZljBmnkmk=.ed25519`). You could also post an issue on the `lykin` git repo.
 
 Please also contact me with any feedback you may have about this tutorial series.
 

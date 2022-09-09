@@ -71,7 +71,7 @@ pub async fn home(db: &State<Database>, flash: Option<FlashMessage<'_>>) -> Temp
         // Count the total unread posts for the given peer.
         let unread_count = db.get_unread_post_count(&peer.public_key);
         // Push a tuple of the peer data and peer unread post count
-				// to the `peers_unread` vector.
+        // to the `peers_unread` vector.
         peers_unread.push((peer, unread_count.to_string()));
     }
 
