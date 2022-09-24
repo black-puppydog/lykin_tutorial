@@ -272,6 +272,12 @@ pub async fn unsubscribe_form(peer: Form<PeerForm>) -> Redirect {
 }
 ```
 
+To make this compile, add this line to `main.rs`:
+
+```rust
+mod utils;
+```
+
 ### Add Flash Messages
 
 Our log messages are helpful to us during development and production runs but the user of our applications is missing out on valuable information; they will have no idea whether or not the public keys they submit for subscription are valid. Let's add flash message support so we have a means of reporting back to the user via the UI.
