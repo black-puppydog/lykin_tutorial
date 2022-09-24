@@ -345,6 +345,8 @@ In order to do this using the `golgi` RPC library, we have to construct a `Relat
 `src/sbot.rs`
 
 ```rust
+use golgi::api::friends::RelationshipQuery;
+
 pub async fn is_following(public_key_a: &str, public_key_b: &str) -> Result<String, String> {
     let mut sbot = init_sbot().await?;
 
