@@ -36,6 +36,7 @@ We're going to use [sled](https://sled.rs/) in order to store the data used by o
 
 ```rust
 use sled::{Db, Tree};
+use std::path::Path;
 
 #[derive(Clone)]
 pub struct Database {
