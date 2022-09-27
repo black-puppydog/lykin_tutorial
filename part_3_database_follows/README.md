@@ -74,7 +74,7 @@ Now open `src/main.rs` and add the following code:
 ```rust
 mod db;
 
-use xdg::BaseDirectories.
+use xdg::BaseDirectories;
 
 use crate::{db::Database, routes::*};
 
