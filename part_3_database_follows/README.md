@@ -104,7 +104,7 @@ async fn rocket() -> _ {
 
 ### Create a Peer Data Structure
 
-Now that we've initialised our database and have a place to store peer data, we can define the shape of that data by creating a `Peer` struct. For now we'll simply be storing the public key and name of each peer. Add this code to what we already have in `src/db.rs`:
+Now that we've initialised our database and have a place to store peer data, we can define the shape of that data by creating a `Peer` struct. We will use the `serde` crate to *ser*ialize and *de*serialize these structs. Add `serde = "1"` to the project dependencies. For now we'll simply be storing the public key and name of each peer. Add this code to what we already have in `src/db.rs`:
 
 ```rust
 use serde::{Deserialize, Serialize};
