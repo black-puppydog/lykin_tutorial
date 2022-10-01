@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 use std::env;
 
 use golgi::{sbot::Keystore, Sbot};
