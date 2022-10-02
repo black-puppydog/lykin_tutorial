@@ -43,6 +43,7 @@ async fn fetch_name_and_update_db(db: &Database, peer_id: String) {
 pub enum Task {
     Cancel,
     FetchAllPosts(String),
+    #[allow(dead_code)]
     FetchLatestName(String),
 }
 

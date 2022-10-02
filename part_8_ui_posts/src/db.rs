@@ -187,6 +187,7 @@ impl Database {
 
     /// Add a post to the database by inserting an instance of the Post struct
     /// into the post tree.
+    #[allow(dead_code)]
     pub fn add_post(&self, public_key: &str, post: Post) -> Result<Option<IVec>> {
         let post_key = format!("{}_{}", public_key, post.key);
         debug!("Serializing post data for {} to bincode", &post_key);
