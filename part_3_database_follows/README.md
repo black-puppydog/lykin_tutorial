@@ -35,6 +35,8 @@ We're going to use [sled](https://sled.rs/) in order to store the data used by o
 `src/db.rs`
 
 ```rust
+use std::path::Path;
+
 use sled::{Db, Tree};
 
 #[derive(Clone)]
@@ -62,12 +64,19 @@ impl Database {
 }
 ```
 
-The initialisation method requires a `Path` in order to open / create the database. We can use the [xdg](https://crates.io/crates/xdg) crate to generate a path using the XDG Base Directory specification. Open `src/main.rs` and add the following code:
+The initialisation method requires a `Path` in order to open / create the database. We can use the [xdg](https://crates.io/crates/xdg) crate to generate a path using the XDG Base Directory specification. Add the dependencies for `sled` and `xdg` to `Cargo.toml`:
+
+```toml
+sled = "0.34"
+xdg = "2.4.1"
+```
+
+Now open `src/main.rs` and add the following code:
 
 ```rust
 mod db;
 
-use xdg::BaseDirectories.
+use xdg::BaseDirectories;
 
 use crate::{db::Database, routes::*};
 
@@ -107,6 +116,14 @@ pub struct Peer {
     pub public_key: String,
     pub name: String,
 }
+```
+
+Before our new code will compile we need to add `serde` to our manifest file. Serde is used to *ser*ialize and *de*serialize data (like our `Peer` struct defined above).
+
+`Cargo.toml`
+
+```toml
+serde = "1"
 ```
 
 In addition to the datastructure itself, we'll implement a couple of methods to be able to create and modify instances of the `struct`.
@@ -171,6 +188,12 @@ impl Database {
 
 You'll notice in the above code snippet that we're serialising the peer data as bincode before inserting it. The sled database we're using expects values in the form of a byte vector; bincode thus provides a neat way of storing complex datastructures (such as our `Peer` `struct`).
 
+Add the `bincode` dependency to `Cargo.toml` and then test that everything compiles correctly:
+
+```toml
+bincode = "1.3"
+```
+
 That's enough database code for the moment. Now we can return to our Scuttlebutt-related code and complete the peer subscription flows.
 
 ### Follow / Unfollow a Peer
@@ -197,33 +220,33 @@ At this point we have the capability to check whether we follow a peer, to add a
 
 ```rust
 // Update this match block in `subscribe_form`
-match sbot::is_following(&whoami, remote_peer).await {
+match sbot::is_following(&whoami, &peer.public_key).await {
     Ok(status) if status.as_str() == "false" => {
         // If we are not following the peer, call the `follow_peer` method.
-        match sbot::follow_peer(remote_peer).await {
-            Ok(_) => info!("Followed peer {}", &remote_peer),
-            Err(e) => warn!("Failed to follow peer {}: {}", &remote_peer, e),
+        match sbot::follow_peer(&peer.public_key).await {
+            Ok(_) => info!("Followed peer {}", &peer.public_key),
+            Err(e) => warn!("Failed to follow peer {}: {}", &peer.public_key, e),
         }
     }
     Ok(status) if status.as_str() == "true" => {
         info!(
             "Already following peer {}. No further action taken",
-            &remote_peer
+            &peer.public_key
         )
     }
     _ => (),
 }
 
 // Update this match block in `unsubscribe_form`
-match sbot::is_following(&whoami, remote_peer).await {
+match sbot::is_following(&whoami, &peer.public_key).await {
     Ok(status) if status.as_str() == "true" => {
         // If we are following the peer, call the `unfollow_peer` method.
-        info!("Unfollowing peer {}", &remote_peer);
-        match sbot::unfollow_peer(remote_peer).await {
+        info!("Unfollowing peer {}", &peer.public_key);
+        match sbot::unfollow_peer(&peer.public_key).await {
             Ok(_) => {
-                info!("Unfollowed peer {}", &remote_peer);
+                info!("Unfollowed peer {}", &peer.public_key);
             }
-            Err(e) => warn!("Failed to unfollow peer {}: {}", &remote_peer, e),
+            Err(e) => warn!("Failed to unfollow peer {}: {}", &peer.public_key, e),
         }
     }
     _ => (),
@@ -269,7 +292,7 @@ pub async fn follow_if_not_following(remote_peer: &str) -> Result<(), String> {
                         Ok(())
                     }
                     Err(e) => {
-                        let err_msg = warn!("Failed to follow peer {}: {}", &remote_peer, e);
+                        let err_msg = format!("Failed to follow peer {}: {}", &remote_peer, e);
                         warn!("{}", err_msg);
 
                         Err(err_msg)
@@ -300,6 +323,14 @@ pub async fn follow_if_not_following(remote_peer: &str) -> Result<(), String> {
 pub async fn unfollow_if_following(remote_peer: &str) {
     if let Ok(whoami) = whoami().await {
         match is_following(&whoami, remote_peer).await {
+            Ok(status) if status.as_str() == "false" => {
+                info!(
+                    "Not currently following peer {}. No further action taken",
+                    &remote_peer
+                );
+
+                Ok(())
+            }
             Ok(status) if status.as_str() == "true" => {
                 info!("Unfollowing peer {}", &remote_peer);
                 match unfollow_peer(remote_peer).await {

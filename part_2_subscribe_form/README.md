@@ -105,7 +105,7 @@ use rocket_dyn_templates::Template;
 async fn rocket() -> _ {
     rocket::build()
         .attach(Template::fairing())
-        .mount("/", routes![home, subscribe_form, unsubscribe_form])
+        .mount("/", routes![home])
 }
 ```
 
@@ -168,7 +168,7 @@ Then add the subscription route handlers to the existing code in `src/routes.rs`
 
 ```rust
 use log::info;
-use rocket::{form::Form, get, post, response::Redirect, uri, FromFor}
+use rocket::{form::Form, get, post, response::Redirect, uri, FromForm}
 
 #[derive(FromForm)]
 pub struct PeerForm {
@@ -242,6 +242,12 @@ pub fn validate_public_key(public_key: &str) -> Result<(), String> {
 
     Ok(())
 }
+```
+
+The `utils` module needs to registered in `main.rs`. Without this addition, the module will not be compiled and the `validate_public_key` function will not be available to the rest of our program. Add this line at the top of `src/main.rs`:
+
+```rust
+mod utils;
 ```
 
 Now the validation function can be called from our subscribe / unsubscribe route handlers, allowing us to ensure the provided public key is valid before using it to make further RPC calls to the sbot:
@@ -339,6 +345,8 @@ In order to do this using the `golgi` RPC library, we have to construct a `Relat
 `src/sbot.rs`
 
 ```rust
+use golgi::api::friends::RelationshipQuery;
+
 pub async fn is_following(public_key_a: &str, public_key_b: &str) -> Result<String, String> {
     let mut sbot = init_sbot().await?;
 
