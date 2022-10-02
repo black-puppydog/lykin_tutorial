@@ -188,6 +188,12 @@ impl Database {
 
 You'll notice in the above code snippet that we're serialising the peer data as bincode before inserting it. The sled database we're using expects values in the form of a byte vector; bincode thus provides a neat way of storing complex datastructures (such as our `Peer` `struct`).
 
+Add the `bincode` dependency to `Cargo.toml` and then test that everything compiles correctly:
+
+```toml
+bincode = "1.3"
+```
+
 That's enough database code for the moment. Now we can return to our Scuttlebutt-related code and complete the peer subscription flows.
 
 ### Follow / Unfollow a Peer
