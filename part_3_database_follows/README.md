@@ -323,6 +323,14 @@ pub async fn follow_if_not_following(remote_peer: &str) -> Result<(), String> {
 pub async fn unfollow_if_following(remote_peer: &str) {
     if let Ok(whoami) = whoami().await {
         match is_following(&whoami, remote_peer).await {
+            Ok(status) if status.as_str() == "false" => {
+                info!(
+                    "Not currently following peer {}. No further action taken",
+                    &remote_peer
+                );
+
+                Ok(())
+            }
             Ok(status) if status.as_str() == "true" => {
                 info!("Unfollowing peer {}", &remote_peer);
                 match unfollow_peer(remote_peer).await {
