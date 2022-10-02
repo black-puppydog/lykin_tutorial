@@ -29,6 +29,8 @@ Author: [@glyph](https://mycelial.technology/)
 
 I am grateful to the Butts who voted to fund this work, all contributors to the [SSBC](https://opencollective.com/secure-scuttlebutt-consortium) and Erick Lavoie (`@elavoie` / `@IgYpd+tCtXnlE2tYX/8rR2AGt+P8svC98WH3MdYAa8Y=.ed25519`) in particular - both for partially funding this work and for developing and overseeing the community grant process.
 
+A big thank you to Daan Wynen (aka. [black-puppydog](https://github.com/black-puppydog)) for providing feedback and fixes for code examples in this tutorial series.
+
 ## Contribute
 
 If you wish to support my work on the Rust Scuttlebutt ecosystem, please consider contributing to my [Liberapay account](https://liberapay.com/glyph/).
