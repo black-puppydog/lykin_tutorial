@@ -244,6 +244,12 @@ pub fn validate_public_key(public_key: &str) -> Result<(), String> {
 }
 ```
 
+The `utils` module needs to registered in `main.rs`. Without this addition, the module will not be compiled and the `validate_public_key` function will not be available to the rest of our program. Add this line at the top of `src/main.rs`:
+
+```rust
+mod utils;
+```
+
 Now the validation function can be called from our subscribe / unsubscribe route handlers, allowing us to ensure the provided public key is valid before using it to make further RPC calls to the sbot:
 
 `src/routes.rs`
