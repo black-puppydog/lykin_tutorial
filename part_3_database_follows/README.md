@@ -118,6 +118,14 @@ pub struct Peer {
 }
 ```
 
+Before our new code will compile we need to add `serde` to our manifest file. Serde is used to *ser*ialize and *de*serialize data (like our `Peer` struct defined above).
+
+`Cargo.toml`
+
+```toml
+serde = "1"
+```
+
 In addition to the datastructure itself, we'll implement a couple of methods to be able to create and modify instances of the `struct`.
 
 `src/db.rs`
