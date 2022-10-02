@@ -168,7 +168,7 @@ Then add the subscription route handlers to the existing code in `src/routes.rs`
 
 ```rust
 use log::info;
-use rocket::{form::Form, get, post, response::Redirect, uri, FromFor}
+use rocket::{form::Form, get, post, response::Redirect, uri, FromForm}
 
 #[derive(FromForm)]
 pub struct PeerForm {
