@@ -132,6 +132,7 @@ pub async fn unfollow_if_following(remote_peer: &str) -> Result<(), String> {
 /// Return a stream of messages authored by the given public key.
 ///
 /// This returns all messages regardless of type.
+#[allow(dead_code)]
 pub async fn get_message_stream(
     public_key: &str,
     sequence_number: u64,
@@ -162,6 +163,7 @@ pub async fn get_name(public_key: &str) -> Result<String, String> {
 /// Each returned vector element includes the key of the post, the content
 /// text, the date the post was published, the sequence number of the post
 /// and whether it is read or unread.
+#[allow(dead_code)]
 pub async fn get_root_posts(
     history_stream: impl futures::Stream<Item = Result<SsbMessageKVT, GolgiError>>,
 ) -> (u64, Vec<Post>) {

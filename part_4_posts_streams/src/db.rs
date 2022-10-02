@@ -54,6 +54,7 @@ pub struct Post {
 impl Post {
     // Create a new instance of the Post struct. A default value of `false` is
     // set for `read`.
+    #[allow(dead_code)]
     pub fn new(
         key: String,
         text: String,
@@ -135,6 +136,7 @@ impl Database {
 
     /// Add a post to the database by inserting an instance of the Post struct
     /// into the post tree.
+    #[allow(dead_code)]
     pub fn add_post(&self, public_key: &str, post: Post) -> Result<Option<IVec>> {
         let post_key = format!("{}_{}", public_key, post.key);
         debug!("Serializing post data for {} to bincode", &post_key);
@@ -146,6 +148,7 @@ impl Database {
 
     /// Add a batch of posts to the database by inserting a vector of instances
     /// of the Post struct into the post tree.
+    #[allow(dead_code)]
     pub fn add_post_batch(&self, public_key: &str, posts: Vec<Post>) -> Result<()> {
         let mut post_batch = Batch::default();
 
