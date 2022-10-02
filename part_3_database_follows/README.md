@@ -292,7 +292,7 @@ pub async fn follow_if_not_following(remote_peer: &str) -> Result<(), String> {
                         Ok(())
                     }
                     Err(e) => {
-                        let err_msg = warn!("Failed to follow peer {}: {}", &remote_peer, e);
+                        let err_msg = format!("Failed to follow peer {}: {}", &remote_peer, e);
                         warn!("{}", err_msg);
 
                         Err(err_msg)
