@@ -105,7 +105,7 @@ use rocket_dyn_templates::Template;
 async fn rocket() -> _ {
     rocket::build()
         .attach(Template::fairing())
-        .mount("/", routes![home, subscribe_form, unsubscribe_form])
+        .mount("/", routes![home])
 }
 ```
 
