@@ -220,33 +220,33 @@ At this point we have the capability to check whether we follow a peer, to add a
 
 ```rust
 // Update this match block in `subscribe_form`
-match sbot::is_following(&whoami, remote_peer).await {
+match sbot::is_following(&whoami, &peer.public_key).await {
     Ok(status) if status.as_str() == "false" => {
         // If we are not following the peer, call the `follow_peer` method.
-        match sbot::follow_peer(remote_peer).await {
-            Ok(_) => info!("Followed peer {}", &remote_peer),
-            Err(e) => warn!("Failed to follow peer {}: {}", &remote_peer, e),
+        match sbot::follow_peer(&peer.public_key).await {
+            Ok(_) => info!("Followed peer {}", &peer.public_key),
+            Err(e) => warn!("Failed to follow peer {}: {}", &peer.public_key, e),
         }
     }
     Ok(status) if status.as_str() == "true" => {
         info!(
             "Already following peer {}. No further action taken",
-            &remote_peer
+            &peer.public_key
         )
     }
     _ => (),
 }
 
 // Update this match block in `unsubscribe_form`
-match sbot::is_following(&whoami, remote_peer).await {
+match sbot::is_following(&whoami, &peer.public_key).await {
     Ok(status) if status.as_str() == "true" => {
         // If we are following the peer, call the `unfollow_peer` method.
-        info!("Unfollowing peer {}", &remote_peer);
-        match sbot::unfollow_peer(remote_peer).await {
+        info!("Unfollowing peer {}", &peer.public_key);
+        match sbot::unfollow_peer(&peer.public_key).await {
             Ok(_) => {
-                info!("Unfollowed peer {}", &remote_peer);
+                info!("Unfollowed peer {}", &peer.public_key);
             }
-            Err(e) => warn!("Failed to unfollow peer {}: {}", &remote_peer, e),
+            Err(e) => warn!("Failed to unfollow peer {}: {}", &peer.public_key, e),
         }
     }
     _ => (),
