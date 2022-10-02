@@ -62,7 +62,14 @@ impl Database {
 }
 ```
 
-The initialisation method requires a `Path` in order to open / create the database. We can use the [xdg](https://crates.io/crates/xdg) crate to generate a path using the XDG Base Directory specification. Open `src/main.rs` and add the following code:
+The initialisation method requires a `Path` in order to open / create the database. We can use the [xdg](https://crates.io/crates/xdg) crate to generate a path using the XDG Base Directory specification. Add the dependencies for `sled` and `xdg` to `Cargo.toml`:
+
+```toml
+sled = "0.34"
+xdg = "2.4.1"
+```
+
+Now open `src/main.rs` and add the following code:
 
 ```rust
 mod db;
